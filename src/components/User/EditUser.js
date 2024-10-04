@@ -12,8 +12,8 @@ const EditUser = () => {
   const getUserApi = "http://localhost:3000/user";
 
   useEffect(() => {
-    getUser();
-  }, []);
+    // your code here
+  }, [getUser]); // Include getUser in the dependency array
 
   const getUser = () => {
     axios
