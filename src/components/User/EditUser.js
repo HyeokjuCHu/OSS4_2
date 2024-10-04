@@ -1,42 +1,48 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../Common/Loader";
 import "./User.css";
+
 const EditUser = () => {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({ name: "", email: "", phone: "" });
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
   const getUserApi = "http://localhost:3000/user";
 
-  useEffect(() => {
-    // your code here
-  }, [getUser]); // Include getUser in the dependency array
-
-  const getUser = () => {
+  // getUser 함수를 useCallback으로 정의
+  const getUser = useCallback(() => {
+    setIsLoading(true); // 로딩 시작
     axios
-      .get(getUserApi.concat("/") + id)
-      .then((item) => {
-        setUser(item.data);
+      .get(`${getUserApi}/${id}`)
+      .then((response) => {
+        setUser(response.data); // 사용자 데이터 설정
       })
       .catch((err) => {
-        console.log(err);
+        setError(err.message); // 오류 처리
+      })
+      .finally(() => {
+        setIsLoading(false); // 로딩 종료
       });
-  };
+  }, [getUserApi, id]);
 
-  const handelInput = (e) => {
+  useEffect(() => {
+    getUser(); // 컴포넌트가 마운트될 때 사용자 정보 가져오기
+  }, [getUser]);
+
+  const handleInput = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    console.log(name, value);
-    setUser({ ...user, [name]: value });
+    setUser({ ...user, [name]: value }); // 사용자 정보 업데이트
   };
 
-  const handelSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true); // 제출 시 로딩 시작
 
-    fetch(getUserApi.concat("/") + id, {
+    fetch(`${getUserApi}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -49,26 +55,27 @@ const EditUser = () => {
         }
         return response.json();
       })
-      .then((data) => {
-        setIsLoading(true);
-        navigate("/show-user");
+      .then(() => {
+        navigate("/show-user"); // 성공적으로 제출 후 리다이렉션
       })
       .catch((error) => {
-        setError(error.message);
-        setIsLoading(false);
+        setError(error.message); // 오류 처리
       })
+      .finally(() => {
+        setIsLoading(false); // 로딩 종료
+      });
   };
 
   return (
     <div className="user-form">
       <div className="heading">
-      {isLoading && <Loader />}
-      {error && <p>Error: {error}</p>}
+        {isLoading && <Loader />}
+        {error && <p>Error: {error}</p>}
         <p>Edit Form</p>
       </div>
-      <form onSubmit={handelSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="mb-3">
-          <label for="name" className="form-label">
+          <label htmlFor="name" className="form-label">
             Name
           </label>
           <input
@@ -77,11 +84,11 @@ const EditUser = () => {
             id="name"
             name="name"
             value={user.name}
-            onChange={handelInput}
+            onChange={handleInput}
           />
         </div>
         <div className="mb-3 mt-3">
-          <label for="email" className="form-label">
+          <label htmlFor="email" className="form-label">
             Email
           </label>
           <input
@@ -90,11 +97,11 @@ const EditUser = () => {
             id="email"
             name="email"
             value={user.email}
-            onChange={handelInput}
+            onChange={handleInput}
           />
         </div>
         <div className="mb-3">
-          <label for="pwd" className="form-label">
+          <label htmlFor="phone" className="form-label">
             Phone
           </label>
           <input
@@ -103,7 +110,7 @@ const EditUser = () => {
             id="phone"
             name="phone"
             value={user.phone}
-            onChange={handelInput}
+            onChange={handleInput}
           />
         </div>
         <button type="submit" className="btn btn-primary submit-btn">
@@ -113,4 +120,5 @@ const EditUser = () => {
     </div>
   );
 };
+
 export default EditUser;
