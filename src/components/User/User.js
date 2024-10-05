@@ -34,8 +34,8 @@ const EditUser = () => {
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>Firstname</th>
-            <th>Lastname</th>
+            <th>Field</th>
+            <th>Value</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +50,14 @@ const EditUser = () => {
           <tr>
             <td>Phone</td>
             <td>{user.phone}</td>
+          </tr>
+          <tr>
+            <td>Role</td>           {/* Role 추가 */}
+            <td>{user.role}</td>    {/* Role 값 표시 */}
+          </tr>
+          <tr>
+            <td>Address</td>        {/* Address 추가 */}
+            <td>{user.address}</td> {/* Address 값 표시 */}
           </tr>
         </tbody>
       </table>

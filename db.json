@@ -4,31 +4,41 @@
       "name": "John",
       "email": "john@example.com",
       "phone": "(555) 555-1234",
-      "id": 1
+      "id": 1,
+      "address": "123 Main St",
+      "role": "Admin"
     },
     {
       "name": "Mary",
-      "email": "\tmary@example.com",
+      "email": "mary@example.com",
       "phone": "(555) 555-1234",
-      "id": 2
+      "id": 2,
+      "address": "456 Oak Ave",
+      "role": "User"
     },
     {
       "name": "Dooley",
       "email": "july@example.com",
       "phone": "(555) 555-8521",
-      "id": 3
+      "id": 3,
+      "address": "789 Pine Blvd",
+      "role": "User"
     },
     {
       "name": "Moe",
       "email": "Moe@example.com",
       "phone": "(555) 555-7410",
-      "id": 4
+      "id": 4,
+      "address": "101 Maple Ct",
+      "role": "Moderator"
     },
     {
       "name": "Doe",
       "email": "Doe@example.com",
       "phone": "(555) 555-7896",
-      "id": 5
+      "id": 5,
+      "address": "202 Birch St",
+      "role": "User"
     }
   ]
 }
