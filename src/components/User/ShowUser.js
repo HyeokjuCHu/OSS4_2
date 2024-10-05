@@ -42,7 +42,7 @@ const ShowUser = () => {
             });
     };
 
-    if (user.length < 0) {
+    if (user.length < 1) {  // user.length를 0과 비교하여 수정
         return <h1>No user found</h1>;
     } else {
         return (
